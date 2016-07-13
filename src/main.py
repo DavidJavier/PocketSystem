@@ -18,9 +18,10 @@ class main():
         recordFactory.createRecord()
         record = recordFactory.getRecord(0)
         record.startStopRecord(True)
-        server = UdpServerView(self.callback)
-        recordController = RecordController(recordFactory, sensorView, server)
-        server.start()
+        # server = UdpServerView(self.callback)
+
+        recordController = RecordController(recordFactory, sensorView)
+        # server.start()
         self.cont = True
         while self.cont:
             recordController.record()
