@@ -6,16 +6,18 @@ import commands
 class SensorView():
 
     def __init__(self):
-        self.gpios = (11, 12, 15, 16, 19, 21, 22, 37, 38, 40)
-        for i in range(0, len(self.gpios)):
-            os.system('echo ' + str(self.gpios[i]) + ' > /sys/class/gpio/export')
-            os.system('echo in > /sys/class/gpio/' + str(self.gpios[i]) + '/direction')
-            #gpio.setup(self.gpios[i], gpio.IN)
-            #print self.gpios[i]
+        # self.gpios = (11, 12, 15, 16, 19, 21, 22, 37, 38, 40)
+        self.gpios = (0, 1, 2, 3, 4, 5, 23, 24, 25, 28)
+        self.valueGpio = []
 
     def getValue(self):
         value = 0
-        for i in range(0, len(self.gpios)):
-            valueGpio = commands.getoutput('cat /sys/class/gpio/' + str(self.gpios[i]) + '/value')
-            # value = value + int(valueGpio) * (2 ** i)
+        print self.valueGpio
+        for i in range(0, len(self.valueGpio)):
+            value += int(self.valueGpio[i]) * (2 ** i)
         return value
+
+    def getGpio(self):
+        self.valueGpio = []
+        for i in range(0, len(self.gpios)):
+            self.valueGpio.append(commands.getoutput('gpio read ' + str(self.gpios[i])))

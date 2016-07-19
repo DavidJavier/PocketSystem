@@ -19,7 +19,10 @@ class RecordController():
         if self.recordFactory.getRecord(0).isRecording():
             self.b = time.time()
             if ((self.b - self.a) > 1 / self.frecuency):
-                self.recordFactory.getRecord(0).addValue(self.sensorView.getValue())
+                self.sensorView.getGpio()
+                value = self.sensorView.getValue()
+                self.recordFactory.getRecord(0).addValue(value)
+                print value
                 #self.records.append(self.sensorView.getValue())
                 # self.externalAppView.sendMessage(self.recordFactory.getRecord(0).getValues())
                 self.a = time.time()
