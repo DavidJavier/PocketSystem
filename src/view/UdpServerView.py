@@ -19,9 +19,12 @@ class UdpView():
         # self.sock = socket.socket(socket.AF_INET,
         #                       socket.SOCK_DGRAM)
         # self.connect()
-        # self.sock.bind((self.host, self.port))
-        # self.thread = threading.Thread(target=self.worker)
-        # self.thread.start()
+        self.s = socket.socket()         # Create a socket object
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s.bind(("192.168.1.41", 12346))
+        self.thread = threading.Thread(target=self.listener)
+        self.thread.start()
 
     def connect(self):
         try:
@@ -43,8 +46,6 @@ class UdpView():
 
     def send(self, message):
         try:
-            #self.connect()
-            # self.client.connect((self.host, self.port))
             self.client.send(str(message))
         except:
             # self.client.close()
@@ -54,10 +55,11 @@ class UdpView():
     def listener(self):
         work = True
         while work:
-            data, addr = self.sock.recvfrom(1024)
+            data, addr = self.s.recvfrom(1024)
+            print data.split(" ")[0]
             # self.callback(data)
-            if data[1] == "RecordView":
-                self.recordViewCallback(data[2] == "True")
+            if data.split(" ")[0] == "RecordView":
+                self.recordViewCallback(data.split(" ")[1] == "True")
 
     def start(self):
         pass

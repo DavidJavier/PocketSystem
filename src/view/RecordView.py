@@ -5,7 +5,7 @@ class RecordView():
 
     def __init__(self, udp):
         self.udp = udp
-        self.isShowing = True
+        self.isShowing = False
         self.udp.setCallBack(self)
         self.i = 0
 
@@ -20,3 +20,5 @@ class RecordView():
         self.i += self.sum
         if self.isShowing:
             self.udp.send(self.i)
+        else:
+            print "no"
