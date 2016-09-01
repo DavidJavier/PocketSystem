@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
+import time
 from Record import Record
 
 
-class RecordFactory():
-
+class RecordFactory:
     def __init__(self):
-        self.records = []
+        self.values = []
+        self.recording = False
+        self.portNumber = 1
+        self.record = []
 
     def createRecord(self):
-        self.records.append(Record())
+        self.record.append(Record())
 
     def getRecord(self, index):
-        return self.records[index]
+        return self.record[index]
 
-    def getAllRecords(self):
-        return self.records
+    def startStopRecord(self, start):
+        self.recording = start
+
+    def isRecording(self):
+        return self.recording

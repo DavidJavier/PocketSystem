@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import time
 
 class Record():
 
@@ -9,7 +9,7 @@ class Record():
         self.portNumber = 1
 
     def addValue(self, value):
-        self.values.append(value)
+        self.values.append([time.time(),value])
 
     def getValues(self):
         return self.values

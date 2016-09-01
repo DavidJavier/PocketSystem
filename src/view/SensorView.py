@@ -12,7 +12,6 @@ class SensorView():
 
     def getValue(self):
         value = 0
-        print self.valueGpio
         for i in range(0, len(self.valueGpio)):
             value += int(self.valueGpio[i]) * (2 ** i)
         return value

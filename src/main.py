@@ -2,7 +2,9 @@
 from control.RecordController import RecordController
 from model.RecordFactory import RecordFactory
 from view.SensorView import SensorView
-from view.UdpServerView import UdpServerView
+from view.RecordView import RecordView
+from control.Umbral import Umbral
+from view.UdpServerView import UdpView
 
 
 class main():
@@ -13,14 +15,18 @@ class main():
             self.cont = False
 
     def __init__(self):
+        udpView = UdpView()
         recordFactory = RecordFactory()
+        recordView = RecordView(udpView)
         sensorView = SensorView()
         recordFactory.createRecord()
         record = recordFactory.getRecord(0)
         record.startStopRecord(True)
-        # server = UdpServerView(self.callback)
 
         recordController = RecordController(recordFactory, sensorView)
+        recordController.setFilter(Umbral(50))
+        recordController.setView(recordView)
+
         # server.start()
         self.cont = True
         while self.cont:

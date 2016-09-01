@@ -5,7 +5,7 @@ import socket
 class UdpClientView():
 
     def __init__(self):
-        self.UDP_IP = "192.168.1.43"
+        self.UDP_IP = "192.168.1.40"
         self.UDP_PORT = 5005
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
