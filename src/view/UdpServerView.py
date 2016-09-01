@@ -1,32 +1,39 @@
 # -*- coding: utf-8 -*-
 import socket
 import threading
-from src.view.RecordView import RecordView
+from RecordView import RecordView
 
 
 class UdpView():
 
     def __init__(self):
-        self.client = socket.socket()
+        self.client = socket.socket(socket.AF_INET,
+                              socket.SOCK_DGRAM)
         self.host = "192.168.1.40"
         self.port = 12345
         self.lost = False
+        self.client.connect((self.host, self.port))
         # UDP_IP = "192.168.1.52"
         # UDP_PORT = 5005
         # self.callback = callback
         # self.sock = socket.socket(socket.AF_INET,
-        #                      socket.SOCK_DGRAM)
-        self.connect()
-        self.sock.bind((self.host, self.port))
+        #                       socket.SOCK_DGRAM)
+        # self.connect()
+        # self.sock.bind((self.host, self.port))
         # self.thread = threading.Thread(target=self.worker)
         # self.thread.start()
 
     def connect(self):
         try:
-            self.client
-            self.client.connect((self.host, self.port))
+            self.client = socket.socket()
         except:
             print 'No connection'
+            self.client.close()
+            self.lost = True
+        try:
+            self.client.connect((self.host, self.port))
+        except:
+            print 'No connection2'
             self.client.close()
             self.lost = True
 
@@ -36,13 +43,11 @@ class UdpView():
 
     def send(self, message):
         try:
-            if not self.lost:
-                self.connect()
-                self.client.send(str(message))
-            else:
-                self.connect()
+            #self.connect()
+            # self.client.connect((self.host, self.port))
+            self.client.send(str(message))
         except:
-            self.client.close()
+            # self.client.close()
             self.lost = True
             print 'Lost connection'
 
