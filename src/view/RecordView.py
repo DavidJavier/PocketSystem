@@ -18,7 +18,16 @@ class RecordView():
         if self.i == 10:
             self.sum = -1
         self.i += self.sum
-        if self.isShowing:
-            self.udp.send(self.i)
-        else:
-            print "no"
+        if x != '':
+            try:
+                if self.isShowing and int(x) > 70:
+                    print x
+                    self.udp.send(x)
+            except:
+                pass
+
+    def startStop(self, startStop):
+        self.starStopSignal(startStop)
+
+    def setStarStopSignal(self, starStopSignal):
+        self.starStopSignal = starStopSignal

@@ -5,7 +5,7 @@ from view.SensorView import SensorView
 from view.RecordView import RecordView
 from control.Umbral import Umbral
 from view.UdpServerView import UdpView
-
+from view.SensorSerialView import SensorSerialView
 
 class main():
 
@@ -18,13 +18,14 @@ class main():
         udpView = UdpView()
         recordFactory = RecordFactory()
         recordView = RecordView(udpView)
-        sensorView = SensorView()
+        # sensorView = SensorView()
+        sensorView = SensorSerialView()
         recordFactory.createRecord()
         record = recordFactory.getRecord(0)
         record.startStopRecord(True)
 
         recordController = RecordController(recordFactory, sensorView)
-        recordController.setFilter(Umbral(50))
+        recordController.setFilter(Umbral(100))
         recordController.setView(recordView)
 
         # server.start()

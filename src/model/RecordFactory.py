@@ -17,6 +17,7 @@ class RecordFactory:
         return self.record[index]
 
     def startStopRecord(self, start):
+        print start
         self.recording = start
 
     def isRecording(self):

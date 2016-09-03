@@ -26,6 +26,9 @@ class UdpView():
         self.thread = threading.Thread(target=self.listener)
         self.thread.start()
 
+    def __del__(self):
+        self.stop()
+
     def connect(self):
         try:
             self.client = socket.socket()
@@ -42,7 +45,10 @@ class UdpView():
 
     def setCallBack(self, view):
         if view.__class__ == RecordView:
-            self.recordViewCallback = view.setShowing
+            self.setShowing = view.setShowing
+            self.startStop = view.startStop
+        else:
+            self.recordViewCallback = view.callBack
 
     def send(self, message):
         try:
@@ -53,13 +59,16 @@ class UdpView():
             print 'Lost connection'
 
     def listener(self):
-        work = True
-        while work:
+        self.work = True
+        while self.work:
             data, addr = self.s.recvfrom(1024)
-            print data.split(" ")[0]
-            # self.callback(data)
             if data.split(" ")[0] == "RecordView":
+                self.setShowing(data.split(" ")[1] == "True")
+            elif data.split(" ")[0] == "Record":
+                self.startStop(data.split(" ")[1] == "True")
+            elif data.split(" ")[0] == "Sensor":
                 self.recordViewCallback(data.split(" ")[1] == "True")
+        print "fin"
 
-    def start(self):
-        pass
+    def stop(self):
+        self.work = False

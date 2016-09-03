@@ -7,7 +7,7 @@ class RecordController():
     def __init__(self, recordFactory, sensorView):
         self.recordFactory = recordFactory
         self.records = []
-        self.frecuency = 10
+        self.frecuency = 30.0
         self.a = 0
         self.sensorView = sensorView
         self.filter = Filter.filter()
@@ -21,12 +21,15 @@ class RecordController():
 
     def setView(self, view):
         self.recordView = view
+        self.recordView.setStarStopSignal(self.startStop)
+
+    def startStop(self, isStart):
+        self.recordFactory.startStopRecord(isStart)
 
     def record(self):
-        if self.recordFactory.getRecord(0).isRecording():
+        if self.recordFactory.isRecording():
             self.b = time.time()
-            if ((self.b - self.a) > 1 / self.frecuency):
-                self.sensorView.getGpio()
+            if ((self.b - self.a) > 1.0 / self.frecuency):
                 value = self.sensorView.getValue()
                 valueFiltred = self.filter.filterSignal(value)
                 self.recordFactory.getRecord(0).addValue(valueFiltred)
