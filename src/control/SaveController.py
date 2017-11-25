@@ -12,6 +12,7 @@ class SaveController:
         records = self.recordFactory.getAllRecords()
         for record in records:
             values = record.getValues()
+
             for value in values:
                 ws.write(value[0], value[1])
 
